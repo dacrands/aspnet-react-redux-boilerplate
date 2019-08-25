@@ -1,6 +1,6 @@
 import React from "react"
 import { connect } from 'react-redux';
-import { postNote, addNote, fetchNotes, postNoteResult } from "../action"
+import { postNote, addNote, fetchNotes, deleteNote } from "../action"
 import { ListGroup, ListGroupItem } from 'react-bootstrap'
 
 let AddNote = props => {
@@ -39,9 +39,11 @@ let AddNote = props => {
                 <hr />
                 {
                     props.noteList[0]
-                    ? props.noteList[0].arr.map(note => (
-                        <ListGroupItem>
-                            <p>{note.body}</p>
+                        ? props.noteList[0].arr.map(note => (
+                            <ListGroupItem key={note.noteId}>
+                                <div className="white-space">{note.body}</div>
+                                <hr />
+                            <button onClick={() => props.deleteNote(note.noteId) } className="btn btn-danger">Delete</button>
                         </ListGroupItem>
                     ))
                     : null
@@ -62,7 +64,8 @@ const mapDispatchToProps = dispatch => {
     return {
         addNote: note => dispatch(addNote(note)),
         fetchNotes: () => dispatch(fetchNotes()),
-        postNote: note => dispatch(postNote(note))
+        postNote: note => dispatch(postNote(note)),
+        deleteNote: note => dispatch(deleteNote(note))
     }
 }
 

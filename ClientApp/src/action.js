@@ -10,6 +10,7 @@ export const store = createStore(
 export const ADD_NOTE = "ADD_NOTE"
 export const FETCH_NOTES = "FETCH_NOTES"
 export const POST_NOTE = "POST_NOTE"
+export const DELETE_NOTE = "DELETE_NOTE"
 
 let nextNoteId = 0
 
@@ -31,6 +32,13 @@ export function getNotes(arr) {
 export function postNoteResult(bool) {
     return {
         type: POST_NOTE,
+        result: bool
+    }
+}
+
+export function deleteNoteResult(bool) {
+    return {
+        type: DELETE_NOTE,
         result: bool
     }
 }
@@ -66,5 +74,18 @@ export function postNote(note) {
         )
         .then(res => dispatch(postNoteResult(true)))
         .catch(err => dispatch(postNoteResult(false)))
+    }
+}
+
+export function deleteNote(noteId) {
+    return function (dispatch) {
+        return fetch(
+            `/api/Notes/${noteId}`,
+            {
+                method: 'DELETE'                
+            }
+        )
+        .then(res => dispatch(deleteNoteResult(true)))
+        .catch(err => dispatch(deleteNoteResult(false)))
     }
 }
