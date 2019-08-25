@@ -1,6 +1,6 @@
 import React from "react"
 import { connect } from 'react-redux';
-import { addNote, fetchNotes } from "../action"
+import { postNote, addNote, fetchNotes, postNoteResult } from "../action"
 import { ListGroup, ListGroupItem } from 'react-bootstrap'
 
 let AddNote = props => {
@@ -14,7 +14,7 @@ let AddNote = props => {
                     if (!input.value.trim()) {
                         return
                     }
-                    props.addNote(input.value);
+                    props.postNote(input.value);
                     input.value = ''
                 }}
             >
@@ -61,7 +61,8 @@ function mapStateToProps (state){
 const mapDispatchToProps = dispatch => {
     return {
         addNote: note => dispatch(addNote(note)),
-        fetchNotes: () => dispatch(fetchNotes())
+        fetchNotes: () => dispatch(fetchNotes()),
+        postNote: note => dispatch(postNote(note))
     }
 }
 

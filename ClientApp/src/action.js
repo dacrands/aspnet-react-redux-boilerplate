@@ -9,6 +9,7 @@ export const store = createStore(
 
 export const ADD_NOTE = "ADD_NOTE"
 export const FETCH_NOTES = "FETCH_NOTES"
+export const POST_NOTE = "POST_NOTE"
 
 let nextNoteId = 0
 
@@ -27,12 +28,16 @@ export function getNotes(arr) {
     }
 }
 
+export function postNoteResult(bool) {
+    return {
+        type: POST_NOTE,
+        result: bool
+    }
+}
 
 //-------------- 
 //     AJAX
 //--------------
-
-
 export function fetchNotes() {
     return function (dispatch) {
         return fetch("/api/Notes")
@@ -42,6 +47,24 @@ export function fetchNotes() {
             .then(json => {
                 dispatch(getNotes(json))
             })
+            .catch(e => console.error(e))
     }   
 }
 
+export function postNote(note) {
+    return function (dispatch) {
+        return fetch(
+            "/api/Notes",
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ body: note })
+            },
+        )
+        .then(res => dispatch(postNoteResult(true)))
+        .catch(err => dispatch(postNoteResult(false)))
+    }
+}
