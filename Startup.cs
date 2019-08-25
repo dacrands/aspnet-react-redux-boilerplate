@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using NoteApp.Models;
 
 namespace note_app
 {
@@ -22,10 +24,13 @@ namespace note_app
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=NoteDb;Trusted_Connection=True;ConnectRetryCount=0";
+            services.AddDbContext<NoteContext>
+                (options => options.UseSqlServer(connection));
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/build";
+                configuration.RootPath = "ClientApp /build";
             });
         }
 
