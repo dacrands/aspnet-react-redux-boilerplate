@@ -1,4 +1,8 @@
-﻿import { createStore } from "redux"
-import noteApp from "../reducers"
+﻿//import { createStore, applyMiddleware } from 'redux';
+//import thunk from 'redux-thunk';
+//import noteApp from "../reducers"
 
-const store = createStore(noteApp)
+//const store = createStore(
+//    noteApp,
+//    applyMiddleware(thunk)
+//)

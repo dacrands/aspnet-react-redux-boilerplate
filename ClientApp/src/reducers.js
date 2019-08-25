@@ -1,11 +1,20 @@
 import { combineReducers } from 'redux'
 import {
     ADD_NOTE,
+    FETCH_NOTES,
     addNote
 } from "./action.js"
 
 const initialState = {
-    notes: {}
+    notes: {},
+    notesList: [],
+}
+
+function noteList(state = [], action) {
+    if (action.type === FETCH_NOTES) {     
+        return [action];
+    }
+    return state;
 }
 
 
@@ -22,6 +31,9 @@ function notes(state = {}, action) {
     return state
 }
 
-const noteApp = notes
+const rootReducer = combineReducers({
+    notes,
+    noteList
+})
 
-export default noteApp
+export default rootReducer
