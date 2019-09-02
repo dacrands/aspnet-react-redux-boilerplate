@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,8 @@ using NoteApp.Utils;
 namespace NoteApp.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes =
+    JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -24,9 +28,11 @@ namespace NoteApp.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<User> GetUsers()
+        public string GetUsers()
         {
-            return _context.Users;
+            var currUser = HttpContext.User;            
+
+            return currUser.Claims.FirstOrDefault().Value.ToString();
         }
 
         // GET: api/Users/5
